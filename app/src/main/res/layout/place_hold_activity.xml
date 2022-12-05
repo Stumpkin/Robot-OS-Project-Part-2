@@ -1,23 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="412dp"
-        android:layout_height="77dp"
-        android:text="Pickup Date"
-        android:textSize="60sp"
+    <LinearLayout
+        android:id="@+id/ph_layout"
+        android:layout_width="409dp"
+        android:layout_height="729dp"
+        android:orientation="vertical"
         tools:layout_editor_absoluteX="1dp"
-        tools:layout_editor_absoluteY="2dp" />
+        tools:layout_editor_absoluteY="1dp">
 
-    <CalendarView
-        android:id="@+id/calendarView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:layout_editor_absoluteX="25dp"
-        tools:layout_editor_absoluteY="78dp" />
+        <Button
+            android:id="@+id/ph_rentalDate_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Rental Date" />
 
+        <TextView
+            android:id="@+id/ph_rentalDate_Text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="No Rental Date"
+            android:textAlignment="center"
+            android:textSize="20sp" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="30dp" />
+
+        <Button
+            android:id="@+id/ph_returnDate_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="return date" />
+
+        <TextView
+            android:id="@+id/ph_returnDate_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="No Return Date"
+            android:textAlignment="center"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/ph_currentBookText"
+            android:layout_width="match_parent"
+            android:layout_height="145dp"
+            android:text="Sample Text"
+            android:textAlignment="center"
+            android:textSize="16sp" />
+
+        <EditText
+            android:id="@+id/ph_inputText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Book"
+            android:inputType="textPersonName" />
+
+        <Button
+            android:id="@+id/ph_submitButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Submit" />
+
+        <TextView
+            android:id="@+id/ph_debugTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center" />
+
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

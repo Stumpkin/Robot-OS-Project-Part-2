@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         caButton = (Button) findViewById(R.id.mm_caButton);
         phButton = (Button) findViewById(R.id.mm_placeButton);
-        //chButton = (Button) findViewById(R.id.mm_cancelButton);
+        chButton = (Button) findViewById(R.id.mm_cancelButton);
         //msButton = (Button) findViewById(R.id.mm_manageButton);
 
         caButton.setOnClickListener(new OnClickListener() {
@@ -32,6 +32,24 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(contextSwitch);
             }
         });
+
+        phButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view)
+            {
+                contextSwitch = new Intent(getApplicationContext(), PHActivity.class);
+                startActivity(contextSwitch);
+            }
+        });
+
+        chButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                contextSwitch = new Intent(getApplicationContext(), LoginActivity.class);
+                startActivity(contextSwitch);
+            }
+        });
+
         bookDB = BookDatabase.getDatabase(this);
         loadDatabase();
     }
@@ -52,12 +70,10 @@ public class MainActivity extends AppCompatActivity {
 
         if (currentBooks.size() <= 0)
         {
-            Book[] defaultBook = new Book[5];
-            defaultBook[0] = new Book("Absolute Java", 0.25);
-            defaultBook[1] = new Book("Absolute Java 2", 0.50);
-            defaultBook[2] = new Book("Python", 1.0);
-            defaultBook[3] = new Book("Intro to CS", 0.25);
-            defaultBook[4] = new Book("Hot Java", 0.05);
+            Book[] defaultBook = new Book[3];
+            defaultBook[0] = new Book("Hot Java", "S. Narayanan", 1.50 );
+            defaultBook[1] = new Book("Fun Java", "Y. Byun", 2.0);
+            defaultBook[2] = new Book("Algorithm for Java", "K. Alice", 2.25);
             bookDB.getBookDao().insert(defaultBook);
         }
     }

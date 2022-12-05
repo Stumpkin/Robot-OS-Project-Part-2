@@ -10,29 +10,56 @@ public class Book
 {
     @PrimaryKey(autoGenerate = true)
     private int id;
-    //private String author; commented out for now
     private String title;
-    //private String isbn; commented out for now
-    //private int year; commented out for now
+    private String author;
     private double price;
     private String priceFormatted;
+    private String avaliable;
+    private String rentalDate;
+    private String returnDate;
+    private String rentedBy;
 
     public Book()
     {
         price = 0;
         priceFormatted = "$0.00";
+        this.avaliable = "YES";
+        this.rentalDate = "NONE";
+        this.returnDate = "NONE";
+        this.rentedBy = "NOBODY";
     }
 
-    public Book(String t, double p)
+    public Book(String t, String a, double p)
     {
         this.price = p;
-        //this.author = a; commented out for now
         this.title = t;
-        //this.isbn = is; commented out for now
-        //this.year = y; commented out for now
+        this.author = a;
         this.priceFormatted = setPriceFormat();
+        this.avaliable = "YES";
+        this.rentalDate = "NONE";
+        this.returnDate = "NONE";
+        this.rentedBy = "NOBODY";
     }
 
+    public Book(Book dook)
+    {
+        if (dook == this)
+        {
+            return;
+        }
+
+        else
+        {
+            this.price = dook.getPrice();
+            this.title = dook.getTitle();
+            this.author = dook.getAuthor();
+            this.priceFormatted = dook.getPriceFormatted();
+            this.avaliable = dook.getAvaliable();
+            this.rentalDate = dook.getRentalDate();
+            this.returnDate = dook.getReturnDate();
+            this.rentedBy = dook.getRentedBy();
+        }
+    }
     String setPriceFormat()
     {
         String format = "###,##0.00";
@@ -42,25 +69,17 @@ public class Book
 
     public int getId() { return this.id; }
 
-//    public String getAuthor() {
-//        return this.author;
-//    } commented out for now
 
     public String getTitle() {
         return this.title;
     }
 
-//    public String getIsbn() { commented out for now
-//        return this.isbn;
-//    }
-
-//    public int getYear() { commented out for now
-//        return this.year;
-//    }
 
     public double getPrice() { return this.price; }
 
     public String getPriceFormatted() { return this.priceFormatted; }
+
+    public String getAuthor() { return this.author; }
 
     public void setPriceFormatted(String thing) { this.priceFormatted = thing; }
 
@@ -68,21 +87,27 @@ public class Book
         this.id = id;
     }
 
-//    public void setAuthor(String author) { commented out for now
-//        this.author = author;
-//    }
+    public void setRentedBy(String n) { this.rentedBy = n; }
 
+    public String getRentedBy() { return this.rentedBy; }
     public void setTitle(String title) {
         this.title = title;
     }
 
-//    public void setIsbn(String isbn) { commented out for now
-//        this.isbn = isbn;
-//    }
-//
-//    public void setYear(int year) { commented out for now
-//        this.year = year;
-//    }
-
     public void setPrice(double price) { this.price = price; this.priceFormatted = setPriceFormat(); }
+
+    public void setAvaliable(String av) { this.avaliable = av; }
+
+    public String getAvaliable() { return this.avaliable; }
+
+    public void setAuthor(String a) { this.author = a;}
+
+    public String getRentalDate() { return this.rentalDate; }
+
+    public String getReturnDate() { return this.returnDate; }
+
+    public void setRentalDate(String rd) { this.rentalDate = rd; }
+
+    public void setReturnDate(String rd) { this.returnDate = rd; }
+
 }

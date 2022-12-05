@@ -2,6 +2,7 @@ package edu.csumb.bank1435.pr3;
 
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
+import java.util.ArrayList;
 
 
 @Entity(tableName = "Accounts")
@@ -11,17 +12,22 @@ public class Account
     private int id;
     private String name;
     private String pass;
-    //List<Book> rentedBooks;
+    private String holdDate;
+    private boolean hasHold;
 
     public Account(String n, String p)
     {
         this.name = n;
         this.pass = p;
+        this.holdDate = "????";
+        this.hasHold = false;
     }
     public Account()
     {
         this.name = "????";
         this.pass = "????";
+        this.holdDate = "????";
+        this.hasHold = false;
     }
 
 //    public void addBook(Book b)
@@ -32,9 +38,12 @@ public class Account
     public String getName() { return this.name; }
     public String getPass() { return this.pass; }
     public int getId() { return this.id; }
-    //public List<Book> getRentedBooks() { return this.rentedBooks; }
+    public String getHoldDate() { return this.holdDate; }
+    public boolean getHasHold() { return this.hasHold; }
     public void setId(int i) { this.id = i; }
     public void setName(String n) { this.name = n; }
     public void setPass(String p) { this.pass = p; }
-    //public void setRentedBooks(List<Book> rb) { this.rentedBooks = rb; }
+    public void setHoldDate(String a) { this.holdDate = a; }
+    public void setHasHold(boolean h) { this.hasHold = h; }
+
 }

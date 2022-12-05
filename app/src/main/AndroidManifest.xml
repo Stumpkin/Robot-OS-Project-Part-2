@@ -23,6 +23,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".CAActivity"></activity>
+        <activity android:name=".PHActivity"></activity>
+        <activity android:name=".LoginActivity"></activity>
     </application>
 
 </manifest>
