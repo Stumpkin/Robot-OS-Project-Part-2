@@ -5,9 +5,39 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/ch_textView"
+        android:layout_width="match_parent"
+        android:layout_height="283dp"
+        android:textAlignment="center"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/ch_totalText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="ELLO MAN"
-        android:textAlignment="center" />
+        android:textAlignment="center"
+        android:textSize="20sp" />
+
+    <EditText
+        android:id="@+id/ch_inputText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName" />
+
+    <Button
+        android:id="@+id/ch_subButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Submit" />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="82dp" />
+
+    <Button
+        android:id="@+id/ch_backButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Back" />
 </LinearLayout>

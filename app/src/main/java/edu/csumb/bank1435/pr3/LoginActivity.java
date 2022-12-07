@@ -29,7 +29,7 @@ public class LoginActivity extends AppCompatActivity
         userText = (EditText) findViewById(R.id.login_username);
         passText = (EditText) findViewById(R.id.login_password);
         logButton = (Button) findViewById(R.id.loginButton);
-
+        bookDB = BookDatabase.getDatabase(this);
 
         logButton.setOnClickListener(new OnClickListener() {
             @Override
@@ -37,11 +37,29 @@ public class LoginActivity extends AppCompatActivity
                 if (login())
                 {
                     contextSwitcher = new Intent(getApplicationContext(), CHActivity.class);
+                    List<Book> searchResults = bookDB.getBookDao().getRentedBooksName(userText.getText().toString());
+                    if (searchResults.size() > 0)
+                    {
+                        startActivity(contextSwitcher);
+                    }
+
+                    else
+                    {
+                        contextSwitcher = new Intent(getApplicationContext(), MainActivity.class);
+                        startActivity(contextSwitcher);
+                        Toast.makeText(getApplicationContext(), "No holds detected", Toast.LENGTH_LONG).show();
+                    }
+                }
+
+                else
+                {
+                    contextSwitcher = new Intent(getApplicationContext(), MainActivity.class);
                     startActivity(contextSwitcher);
+                    Toast.makeText(getApplicationContext(), "Invalid login", Toast.LENGTH_SHORT).show();
                 }
             }
         });
-        bookDB = BookDatabase.getDatabase(this);
+
     }
 
     boolean login()
@@ -49,13 +67,23 @@ public class LoginActivity extends AppCompatActivity
         List<Account> allAccounts = bookDB.getBookDao().getAllAccounts();
         String username = userText.getText().toString();
         String password = passText.getText().toString();
+        boolean flag = false;
         for (Account account: allAccounts)
         {
             if (account.getName().equals(username) && account.getPass().equals(password))
             {
-                return true;
+                account.setIsActive("YES");
+                flag = true;
+                break;
             }
         }
-        return false;
+
+        if (flag)
+        {
+            bookDB.getBookDao().updateAllAccounts(allAccounts);
+            return flag;
+        }
+        Toast.makeText(this,"Error: invalid login", Toast.LENGTH_SHORT).show();
+        return flag;
     }
 }

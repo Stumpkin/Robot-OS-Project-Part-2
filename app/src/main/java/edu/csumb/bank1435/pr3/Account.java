@@ -3,6 +3,7 @@ package edu.csumb.bank1435.pr3;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 import java.util.ArrayList;
+import java.text.DecimalFormat;
 
 
 @Entity(tableName = "Accounts")
@@ -14,6 +15,9 @@ public class Account
     private String pass;
     private String holdDate;
     private boolean hasHold;
+    private String isActive;
+    private double total;
+    private String totalFormated;
 
     public Account(String n, String p)
     {
@@ -21,6 +25,9 @@ public class Account
         this.pass = p;
         this.holdDate = "????";
         this.hasHold = false;
+        this.isActive = "NO";
+        this.total = 0;
+        this.totalFormated = moneyFormatted();
     }
     public Account()
     {
@@ -28,12 +35,22 @@ public class Account
         this.pass = "????";
         this.holdDate = "????";
         this.hasHold = false;
+        this.isActive = "NO";
+        this.total = 0;
+        this.totalFormated = moneyFormatted();
+    }
+    public String moneyFormatted()
+    {
+        String format = "###,##0.00";
+        DecimalFormat df = new DecimalFormat(format);
+        return "$" + df.format(total);
     }
 
-//    public void addBook(Book b)
-//    {
-//        rentedBooks.add(b);
-//    }
+    public void increaseTotal(double a)
+    {
+        this.total += a;
+        this.totalFormated = moneyFormatted();
+    }
 
     public String getName() { return this.name; }
     public String getPass() { return this.pass; }
@@ -45,5 +62,10 @@ public class Account
     public void setPass(String p) { this.pass = p; }
     public void setHoldDate(String a) { this.holdDate = a; }
     public void setHasHold(boolean h) { this.hasHold = h; }
-
+    public void setIsActive(String act) { this.isActive = act; }
+    public String getIsActive() { return this.isActive; }
+    public String getTotalFormated() { return this.moneyFormatted(); }
+    public double getTotal() { return this.total; }
+    public void setTotal(double a) { this.total = a; }
+    public void setTotalFormated(String tf) {this.totalFormated = tf; }
 }

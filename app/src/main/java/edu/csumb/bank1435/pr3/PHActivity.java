@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.view.View;
 import android.widget.Button;
 import android.view.View.OnClickListener;
@@ -28,9 +29,11 @@ public class PHActivity extends AppCompatActivity
     private AlertDialog dialouge;
     private CalendarView calendar, calendar2;
     private String rentalDateString, returnDateString;
-    private EditText inputText, inputUserText, inputPassText;
+    private EditText inputText, inputUserText, inputPassText, inputHourlyText;
     private LinearLayout LL;
     private BookDatabase bookDB;
+    private Intent contextSwitcher;
+    private boolean failedOnce = false;
     //private LoginActivity
     @Override
     protected void onCreate(Bundle savedState)
@@ -131,6 +134,7 @@ public class PHActivity extends AppCompatActivity
         dialouge = bobBuilder.create();
         dialouge.show();
 
+
         loginButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -144,9 +148,11 @@ public class PHActivity extends AppCompatActivity
                     return;
                 }
                 boolean flag = false;
+
                 List<Account> allAccounts = bookDB.getBookDao().getAllAccounts();
                 String tempName = inputUserText.getText().toString();
                 String tempPass = inputPassText.getText().toString();
+                contextSwitcher = new Intent(getApplicationContext(), MainActivity.class);
                 for (Account account : allAccounts)
                 {
                     if (account.getName().equals(tempName) && account.getPass().equals(tempPass))
@@ -154,16 +160,16 @@ public class PHActivity extends AppCompatActivity
                         flag = true;
                         if (!account.getHasHold())
                         {
-                            search(account, true);
+                            search(account);
                             account.setHasHold(true);
-                            account.setHoldDate(rentalDateString);
                             dialouge.dismiss();
                             break;
                         }
 
                         else
                         {
-                            search(account, false);
+                            search(account);
+                            dialouge.dismiss();
                             break;
                         }
                     }
@@ -173,8 +179,20 @@ public class PHActivity extends AppCompatActivity
                 {
                     Toast.makeText(getApplicationContext(), "Cannot find account", Toast.LENGTH_LONG).show();
                     debugTextView.setText("Cannot find account");
-                    dialouge.dismiss();
-                    return;
+                    if (!failedOnce)
+                    {
+                        failedOnce = true;
+                        return;
+                    }
+
+                    else
+                    {
+                        dialouge.dismiss();
+
+                        startActivity(contextSwitcher);
+                        return;
+                    }
+
                 }
                 bookDB.getBookDao().updateAllAccounts(allAccounts);
                 dialouge.dismiss();
@@ -196,18 +214,12 @@ public class PHActivity extends AppCompatActivity
         booksText.setText(displayString);
     }
 
-    void search(Account someAccount, boolean noHold) // get all of the books and do search from there
+    void search(Account someAccount) // get all of the books and do search from there
     {
-        if (!noHold)
-        {
-            Toast.makeText(this, "This Account already has a hold", Toast.LENGTH_SHORT).show();
-            debugTextView.setText("This Account already has a hold");
-            return;
-        }
-
         String target = inputText.getText().toString();
         List<Book> searchResults = bookDB.getBookDao().searchbyTitle(target);
         List<Book> allBooks = bookDB.getBookDao().getAll();
+
 
         if (searchResults.size() > 0)
         {
@@ -223,7 +235,10 @@ public class PHActivity extends AppCompatActivity
                         book.setAvaliable("NO");
                         book.setRentalDate(rentalDateString);
                         book.setReturnDate(returnDateString);
-                        book.setReturnDate(someAccount.getName());
+                        book.setRentedBy(someAccount.getName());
+                        book.setDays(rentedDays());
+                        someAccount.increaseTotal(book.getPrice() * rentedDays());
+                        temp.setPrice(book.getPrice() * rentedDays());
                         break;
                     }
                 }
@@ -232,7 +247,7 @@ public class PHActivity extends AppCompatActivity
                 Toast.makeText(this, searchResults.get(0).getTitle() +
                         " has been successfully checked out at " + date, Toast.LENGTH_LONG).show();
                 debugTextView.setText(searchResults.get(0).getTitle() + " has been successfully checked" +
-                        " out at " + date + " by " + someAccount.getName());
+                        " out at " + date + " by " + someAccount.getName() + " for " + temp.getPriceFormatted());
 
             }
 
@@ -258,14 +273,23 @@ public class PHActivity extends AppCompatActivity
         LocalDate date2 = LocalDate.parse(returnal);
         LocalDate week = date1.plusWeeks(1);
         LocalDate today = LocalDate.now();
-        if (date1.compareTo(today) >= 0 && date2.compareTo(today) >= 0)
+        if (date2.compareTo(today) >= 0) // might have to change this so that they can rent a book and return it in the same day
         {
-            if (date2.compareTo(date1) > 0 && date2.compareTo(week) < 0)
+            if (date2.compareTo(date1) >= 0 && date2.compareTo(week) < 0)
             {
                 return true;
             }
         }
         return false;
+    }
+
+    int rentedDays()
+    {
+        String rental = reforamtDateString(rentalDateString);
+        String returnal = reforamtDateString(returnDateString);
+        LocalDate date1 = LocalDate.parse(rental);
+        LocalDate date2 = LocalDate.parse(returnal);
+        return date2.compareTo(date1) + 1;
     }
 
     String reforamtDateString(String a)
@@ -283,19 +307,3 @@ public class PHActivity extends AppCompatActivity
         return year + "-" + month + "-" + day;
     }
 }
-
-
-
-
-
-
-//        String sample = m + "/" + y + "/" + d;
-//        minus??
-//        add??
-//        adjust??
-//        plusdays
-//        LocalDate otherDate = LocalDate.of(y, m, d);
-//        System.out.println(y + m + d);
-//        DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("MM/dd/yyyy");
-//        //String currentDate = date.format(dateFormat);
-//        someText.setText(otherDate.plusDays(7).format(dateFormat));

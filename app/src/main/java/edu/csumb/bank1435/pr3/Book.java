@@ -18,11 +18,13 @@ public class Book
     private String rentalDate;
     private String returnDate;
     private String rentedBy;
+    private int days;
 
     public Book()
     {
-        price = 0;
-        priceFormatted = "$0.00";
+        this.price = 0;
+        this.days = 0;
+        this.priceFormatted = "$0.00";
         this.avaliable = "YES";
         this.rentalDate = "NONE";
         this.returnDate = "NONE";
@@ -39,6 +41,7 @@ public class Book
         this.rentalDate = "NONE";
         this.returnDate = "NONE";
         this.rentedBy = "NOBODY";
+        this.days = 0;
     }
 
     public Book(Book dook)
@@ -58,6 +61,7 @@ public class Book
             this.rentalDate = dook.getRentalDate();
             this.returnDate = dook.getReturnDate();
             this.rentedBy = dook.getRentedBy();
+            this.days = 0;
         }
     }
     String setPriceFormat()
@@ -65,6 +69,15 @@ public class Book
         String format = "###,##0.00";
         DecimalFormat df = new DecimalFormat(format);
         return "$" + df.format(price);
+    }
+
+    public void resetBook()
+    {
+        this.days = 0;
+        this.rentalDate = "NONE";
+        this.returnDate = "NONE";
+        this.rentedBy = "NOBODY";
+        this.avaliable = "YES";
     }
 
     public int getId() { return this.id; }
@@ -109,5 +122,9 @@ public class Book
     public void setRentalDate(String rd) { this.rentalDate = rd; }
 
     public void setReturnDate(String rd) { this.returnDate = rd; }
+
+    public void setDays(int d) { this.days = d; }
+
+    public int getDays() { return this.days; }
 
 }
