@@ -1,3 +1,7 @@
+/**
+ * Title: Book.java
+ *
+ */
 package edu.csumb.bank1435.pr3;
 
 import androidx.room.Entity;

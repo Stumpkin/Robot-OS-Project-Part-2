@@ -1,8 +1,13 @@
+/**
+ * Title: Account.java
+ * Abstract: Account holds: a name, password, current price, is active state and has holds state
+ * ID: 1012
+ * Date of Completion: 12/07/22
+ */
 package edu.csumb.bank1435.pr3;
 
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
-import java.util.ArrayList;
 import java.text.DecimalFormat;
 
 

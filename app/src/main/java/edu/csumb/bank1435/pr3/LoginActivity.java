@@ -4,10 +4,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.SharedPreferences;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.view.View.OnClickListener;
 import android.os.Bundle;
 import android.widget.Toast;
+import android.widget.LinearLayout;
 import android.content.Context;
 import android.widget.TextView;
 import android.widget.EditText;
@@ -16,24 +18,32 @@ import android.content.Intent;
 
 public class LoginActivity extends AppCompatActivity
 {
+    private TextView debugText;
     private EditText userText, passText;
     private Button logButton;
     private BookDatabase bookDB;
     private Intent contextSwitcher;
+    private int failedLogin;
+    private LinearLayout LL;
 
     @Override
     protected void onCreate(Bundle savedState)
     {
         super.onCreate(savedState);
         setContentView(R.layout.login_view);
+        failedLogin = 0;
         userText = (EditText) findViewById(R.id.login_username);
         passText = (EditText) findViewById(R.id.login_password);
         logButton = (Button) findViewById(R.id.loginButton);
         bookDB = BookDatabase.getDatabase(this);
+        LL = (LinearLayout) findViewById(R.id.login_Layout);
+        debugText = (TextView) findViewById(R.id.login_Text);
 
         logButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
+                InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow (LL.getWindowToken(), 0);
                 if (login() & getIntent().getStringExtra("Button").equals("Cancel Hold"))
                 {
                     contextSwitcher = new Intent(getApplicationContext(), CHActivity.class);
@@ -59,9 +69,14 @@ public class LoginActivity extends AppCompatActivity
 
                 else
                 {
-                    contextSwitcher = new Intent(getApplicationContext(), MainActivity.class);
-                    startActivity(contextSwitcher);
                     Toast.makeText(getApplicationContext(), "Invalid login", Toast.LENGTH_SHORT).show();
+                    debugText.setText("Invalid login");
+                    if (failedLogin > 0)
+                    {
+                        contextSwitcher = new Intent(getApplicationContext(), MainActivity.class);
+                        startActivity(contextSwitcher);
+                    }
+                    failedLogin++;
                 }
             }
         });
@@ -93,7 +108,11 @@ public class LoginActivity extends AppCompatActivity
             bookDB.getBookDao().updateAllAccounts(allAccounts);
             return flag;
         }
-        Toast.makeText(this,"Error: invalid login", Toast.LENGTH_SHORT).show();
+
+//        if (getIntent().getStringExtra("Button").equals("Cancel Hold"))
+//        {
+//            Toast.makeText(this,"Error: invalid login", Toast.LENGTH_SHORT).show();
+//        }
         return flag;
     }
 
