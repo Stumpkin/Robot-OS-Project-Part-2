@@ -18,7 +18,7 @@ import java.util.List;
 public class MSActivity extends Activity
 {
     private TextView someText;
-    private Button cBookButton, backbutton, quitButton;
+    private Button cBookButton, backbutton;
     private BookDatabase bookDB;
     private Intent contextSwitcher;
     @Override
@@ -29,7 +29,6 @@ public class MSActivity extends Activity
         someText = (TextView) findViewById(R.id.ms_text);
         cBookButton = (Button) findViewById(R.id.ms_bookButton);
         backbutton = (Button) findViewById(R.id.ms_backButton);
-        quitButton = (Button) findViewById(R.id.ms_OUTBUTTON);
         bookDB = BookDatabase.getDatabase(this);
 
         cBookButton.setOnClickListener(new OnClickListener() {
@@ -53,14 +52,6 @@ public class MSActivity extends Activity
             }
         });
 
-        quitButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view)
-            {
-                finishAffinity();
-                System.exit(0);
-            }
-        });
         loadLogs();
     }
 

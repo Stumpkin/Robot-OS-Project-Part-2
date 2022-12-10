@@ -22,7 +22,7 @@ import android.content.Intent;
 import java.util.List;
 import java.util.Date;
 import java.text.DateFormat;
- // NOTE: BUG - there is a bug where if you place a hold then immediatly try to cancel it the hold
+ // NOTE: BUG - there is a bug where if you place a hold then immediately try to cancel it the hold
  // will not appear until you login from Cancel Hold option again from the main menu
 public class CHActivity extends Activity
 {
@@ -163,7 +163,7 @@ public class CHActivity extends Activity
                 message += book.getTitle() + " from " + book.getRentalDate() + " to " + book.getReturnDate();
                 Toast.makeText(getApplicationContext(), "Successfull canceled hold for " + book.getTitle()
                         + " from " + book.getRentalDate() + " to " + book.getReturnDate(), Toast.LENGTH_LONG).show();
-                book.resetBook();   
+                book.resetBook();
                 break;
             }
         }

@@ -240,6 +240,7 @@ public class PHActivity extends AppCompatActivity
                 Book temp = searchResults.get(0);
                 temp.setAvaliable("NO");
                 searchResults.get(0).setAvaliable("NO");
+                String priceTemp = "";
                 for (Book book : allBooks)
                 {
                     if (book.getTitle().equals(temp.getTitle()))
@@ -251,6 +252,7 @@ public class PHActivity extends AppCompatActivity
                         book.setDays(rentedDays());
                         someAccount.increaseTotal(book.getPrice() * rentedDays());
                         temp.setPrice(book.getPrice() * rentedDays());
+                        priceTemp =  temp.getPriceFormatted();
                         break;
                     }
                 }
@@ -258,7 +260,7 @@ public class PHActivity extends AppCompatActivity
                 String date = DateFormat.getDateTimeInstance().format(new Date());
                 String message = searchResults.get(0).getTitle() +
                         " has been successfully checked out at " + date + " from " + rentalDateString + " to " + returnDateString +
-                        " for a total of: " + someAccount.getTotalFormated();
+                        " for a total of: " + priceTemp + " for " + someAccount.getName();
                 Toast.makeText(this, message, Toast.LENGTH_LONG).show();
                 //debugTextView.setText(message);
 

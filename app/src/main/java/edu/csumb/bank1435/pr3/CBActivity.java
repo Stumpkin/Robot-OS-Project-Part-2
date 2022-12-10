@@ -67,6 +67,7 @@ public class CBActivity extends Activity
         String titleText = editTitle.getText().toString();
         String authorText = editAuthor.getText().toString();
         String priceText = editPrice.getText().toString();
+        priceText = priceText.split("\\$")[1];
         List<Book> allBooks = bookDB.getBookDao().getAll();
         List<Book> searched = bookDB.getBookDao().searchbyTitle(titleText);
         String[] titleSpaces = titleText.split(" ");
