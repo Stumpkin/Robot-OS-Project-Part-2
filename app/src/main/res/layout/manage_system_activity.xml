@@ -1,44 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/ch_Layout"
+    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/ch_textView"
+        android:id="@+id/ms_text"
         android:layout_width="match_parent"
-        android:layout_height="283dp"
+        android:layout_height="520dp"
+        android:text="SOME TEXT"
         android:textAlignment="center"
         android:textSize="20sp" />
 
     <TextView
-        android:id="@+id/ch_totalText"
+        android:id="@+id/textView2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:text="Would you like to add a book into the system?"
         android:textAlignment="center"
         android:textSize="20sp" />
 
-    <EditText
-        android:id="@+id/ch_inputText"
+    <Button
+        android:id="@+id/ms_bookButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPersonName" />
+        android:text="Yes" />
 
     <Button
-        android:id="@+id/ch_subButton"
+        android:id="@+id/ms_backButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Submit" />
-
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="82dp" />
-
-    <Button
-        android:id="@+id/ch_backButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Back" />
+        android:text="No" />
 </LinearLayout>

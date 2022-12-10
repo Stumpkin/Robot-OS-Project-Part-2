@@ -34,7 +34,7 @@ public class LoginActivity extends AppCompatActivity
         logButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (login())
+                if (login() & getIntent().getStringExtra("Button").equals("Cancel Hold"))
                 {
                     contextSwitcher = new Intent(getApplicationContext(), CHActivity.class);
                     List<Book> searchResults = bookDB.getBookDao().getRentedBooksName(userText.getText().toString());
@@ -49,6 +49,12 @@ public class LoginActivity extends AppCompatActivity
                         startActivity(contextSwitcher);
                         Toast.makeText(getApplicationContext(), "No holds detected", Toast.LENGTH_LONG).show();
                     }
+                }
+
+                else if (adminLogin() & getIntent().getStringExtra("Button").equals("Admin"))
+                {
+                    contextSwitcher = new Intent(getApplicationContext(), MSActivity.class);
+                    startActivity(contextSwitcher);
                 }
 
                 else
@@ -72,6 +78,10 @@ public class LoginActivity extends AppCompatActivity
         {
             if (account.getName().equals(username) && account.getPass().equals(password))
             {
+                if (account.getName().equals("Admin2"))
+                {
+                    break;
+                }
                 account.setIsActive("YES");
                 flag = true;
                 break;
@@ -85,5 +95,26 @@ public class LoginActivity extends AppCompatActivity
         }
         Toast.makeText(this,"Error: invalid login", Toast.LENGTH_SHORT).show();
         return flag;
+    }
+
+    boolean adminLogin()
+    {
+        String ultpass = "Admin2";
+        String input = userText.getText().toString();
+        String input2 = passText.getText().toString();
+        List<Account> adminAccountFound = bookDB.getBookDao().accountSearchByName(ultpass);
+
+        if (adminAccountFound.size() > 0)
+        {
+            Account temp = adminAccountFound.get(0);
+            if (temp.getName().equals(input) & temp.getPass().equals(input2))
+            {
+                temp.setIsActive("YES");
+                bookDB.getBookDao().update(temp);
+                return true;
+            }
+            return false;
+        }
+        return false;
     }
 }

@@ -13,6 +13,8 @@ import android.widget.Toast;
 import android.content.Context;
 import android.content.Intent;
 import java.util.List;
+import java.util.Date;
+import java.text.DateFormat;
 
 public class CHActivity extends Activity
 {
@@ -21,6 +23,7 @@ public class CHActivity extends Activity
     private EditText inputText;
     private Intent contextSwitcher;
     private BookDatabase bookDB;
+    private LinearLayout LL;
     private Account activeAccount;
 
     @Override
@@ -34,6 +37,7 @@ public class CHActivity extends Activity
         inputText = (EditText) findViewById(R.id.ch_inputText);
         submitButton = (Button) findViewById(R.id.ch_subButton);
         backButton = (Button) findViewById(R.id.ch_backButton);
+        LL = (LinearLayout) findViewById(R.id.ch_Layout);
 
         bookDB = BookDatabase.getDatabase(this);
         activeAccount = bookDB.getBookDao().getActiveAccount("YES").get(0);
@@ -42,11 +46,19 @@ public class CHActivity extends Activity
             @Override
             public void onClick(View view)
             {
+                InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow (LL.getWindowToken(), 0);
                 if (search())
                 {
                     updateHolds();
                     displayCurrentBooks();
                 }
+
+                else
+                {
+                    Toast.makeText(getApplicationContext(), "Cannot find book", Toast.LENGTH_LONG).show();
+                }
+                resetText();
             }
         });
 
@@ -132,19 +144,24 @@ public class CHActivity extends Activity
     {
         List<Book> allBooks = bookDB.getBookDao().getAll();
         String targetTitle = inputText.getText().toString();
+        String message = activeAccount.getName() + " has canceled their hold for ";
+        String date = DateFormat.getDateInstance().format(new Date());
         for (Book book : allBooks)
         {
             if (book.getTitle().equals(targetTitle))
             {
                 activeAccount.increaseTotal(-(book.getPrice() * book.getDays()));
                 System.out.println(book.getPrice() * book.getDays());
-
+                message += book.getTitle() + " from " + book.getRentalDate() + " to " + book.getReturnDate() +
+                        " at " + date;
                 book.resetBook();
                 break;
             }
         }
         bookDB.getBookDao().update(allBooks);
         bookDB.getBookDao().update(activeAccount);
+        Log temp = new Log("Cancel Hold", message);
+        bookDB.getBookDao().insert(temp);
     }
 
 
@@ -164,5 +181,10 @@ public class CHActivity extends Activity
         bookDB.getBookDao().updateAllAccounts(allAccounts);
         contextSwitcher = new Intent(getApplicationContext(), MainActivity.class);
         startActivity(contextSwitcher);
+    }
+
+    void resetText()
+    {
+        inputText.setText("");
     }
 }

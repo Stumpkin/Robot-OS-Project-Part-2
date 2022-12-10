@@ -26,6 +26,8 @@
         <activity android:name=".PHActivity"></activity>
         <activity android:name=".LoginActivity"></activity>
         <activity android:name=".CHActivity"></activity>
+        <activity android:name=".MSActivity"></activity>
+        <activity android:name=".CBActivity"></activity>
     </application>
 
 </manifest>

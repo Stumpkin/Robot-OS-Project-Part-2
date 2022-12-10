@@ -16,6 +16,9 @@ public interface BookDao
     @Insert
     void insert(Account... accounts);
 
+    @Insert
+    void insert(Log Log);
+
     @Update
     void update(Book book);
 
@@ -55,6 +58,9 @@ public interface BookDao
     @Query("SELECT * FROM Books Where rentedBy = :rb")
     List<Book> getRentedBooksName(String rb);
 
-    @Query("SELECT * From Accounts Where isActive = :act")
+    @Query("SELECT * FROM Accounts Where isActive = :act")
     List<Account> getActiveAccount(String act);
+
+    @Query("SELECT * FROM Logs")
+    List<Log> getLogs();
 }

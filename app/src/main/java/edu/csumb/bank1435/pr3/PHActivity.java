@@ -244,10 +244,15 @@ public class PHActivity extends AppCompatActivity
                 }
                 bookDB.getBookDao().update(allBooks);
                 String date = DateFormat.getDateTimeInstance().format(new Date());
+                String message = searchResults.get(0).getTitle() +
+                        " has been successfully checked out at " + date;
                 Toast.makeText(this, searchResults.get(0).getTitle() +
                         " has been successfully checked out at " + date, Toast.LENGTH_LONG).show();
                 debugTextView.setText(searchResults.get(0).getTitle() + " has been successfully checked" +
                         " out at " + date + " by " + someAccount.getName() + " for " + temp.getPriceFormatted());
+
+                Log tempLog = new Log("Place Hold", debugTextView.getText().toString());
+                bookDB.getBookDao().insert(tempLog);
 
             }
 

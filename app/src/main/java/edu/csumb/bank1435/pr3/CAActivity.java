@@ -49,6 +49,7 @@ public class CAActivity extends Activity
 
                 String username = usernameText.getText().toString();
                 String password = passText.getText().toString();
+                resetText();
                 String date = DateFormat.getDateTimeInstance().format(new Date());
                 List<Account> searchResults = bookDB.getBookDao().accountSearchByName(username);
                 int letterCount = 0;
@@ -122,7 +123,10 @@ public class CAActivity extends Activity
                 {
                     Account temp = new Account(username, password);
                     bookDB.getBookDao().insert(temp);
-                    Toast.makeText(context, username + "'s account created at " + date, Toast.LENGTH_LONG).show();
+                    String message = username + "'s account created at " + date;
+                    Toast.makeText(context, message, Toast.LENGTH_LONG).show();
+                    Log logTemp = new Log("Account Creation", message);
+                    bookDB.getBookDao().insert(logTemp);
                 }
 
                 else
@@ -146,4 +150,9 @@ public class CAActivity extends Activity
         bookDB = BookDatabase.getDatabase(this);
     }
 
+    void resetText()
+    {
+        usernameText.setText("");
+        passText.setText("");
+    }
 }

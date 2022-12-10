@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
         caButton = (Button) findViewById(R.id.mm_caButton);
         phButton = (Button) findViewById(R.id.mm_placeButton);
         chButton = (Button) findViewById(R.id.mm_cancelButton);
-        //msButton = (Button) findViewById(R.id.mm_manageButton);
+        msButton = (Button) findViewById(R.id.mm_manageButton);
 
         caButton.setOnClickListener(new OnClickListener() {
             @Override
@@ -45,7 +45,16 @@ public class MainActivity extends AppCompatActivity {
         chButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                contextSwitch = new Intent(getApplicationContext(), LoginActivity.class);
+                contextSwitch = new Intent(getApplicationContext(), LoginActivity.class).putExtra("Button", "Cancel Hold");
+                startActivity(contextSwitch);
+            }
+        });
+
+        msButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view)
+            {
+                contextSwitch = new Intent(getApplicationContext(), LoginActivity.class).putExtra("Button", "Admin");
                 startActivity(contextSwitch);
             }
         });
