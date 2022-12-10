@@ -1,3 +1,10 @@
+/**
+ * Title: CHActivity.java
+ * Abstract: Cancel Holds for accounts who already have a hold for a book in the system
+ * Author: Jalen Banks
+ * ID: 1012
+ * Date of Completion: 12/07/22
+ */
 package edu.csumb.bank1435.pr3;
 
 import android.app.Activity;
@@ -15,7 +22,8 @@ import android.content.Intent;
 import java.util.List;
 import java.util.Date;
 import java.text.DateFormat;
-
+ // NOTE: BUG - there is a bug where if you place a hold then immediatly try to cancel it the hold
+ // will not appear until you login from Cancel Hold option again from the main menu
 public class CHActivity extends Activity
 {
     private TextView textView, totalView;
@@ -145,22 +153,23 @@ public class CHActivity extends Activity
         List<Book> allBooks = bookDB.getBookDao().getAll();
         String targetTitle = inputText.getText().toString();
         String message = activeAccount.getName() + " has canceled their hold for ";
-        String date = DateFormat.getDateInstance().format(new Date());
+        String date = DateFormat.getDateTimeInstance().format(new Date());
         for (Book book : allBooks)
         {
             if (book.getTitle().equals(targetTitle))
             {
                 activeAccount.increaseTotal(-(book.getPrice() * book.getDays()));
                 System.out.println(book.getPrice() * book.getDays());
-                message += book.getTitle() + " from " + book.getRentalDate() + " to " + book.getReturnDate() +
-                        " at " + date;
-                book.resetBook();
+                message += book.getTitle() + " from " + book.getRentalDate() + " to " + book.getReturnDate();
+                Toast.makeText(getApplicationContext(), "Successfull canceled hold for " + book.getTitle()
+                        + " from " + book.getRentalDate() + " to " + book.getReturnDate(), Toast.LENGTH_LONG).show();
+                book.resetBook();   
                 break;
             }
         }
         bookDB.getBookDao().update(allBooks);
         bookDB.getBookDao().update(activeAccount);
-        Log temp = new Log("Cancel Hold", message);
+        Log temp = new Log("Hold Canceled", message, date);
         bookDB.getBookDao().insert(temp);
     }
 

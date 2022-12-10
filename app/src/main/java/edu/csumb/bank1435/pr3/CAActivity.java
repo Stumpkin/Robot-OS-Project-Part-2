@@ -1,3 +1,10 @@
+/**
+ * Title: CAActivity.java
+ * Abstract: Create an new account and adds it into the database while checking for existing accounts
+ * Author: Jalen Banks
+ * ID: 1012
+ * Date of Completion: 12/07/22
+ */
 package edu.csumb.bank1435.pr3;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -11,9 +18,9 @@ import android.widget.LinearLayout;
 import java.util.Date;
 import java.text.DateFormat;
 import android.widget.Toast;
-import android.content.Context;
 import java.util.List;
 import android.content.Intent;
+import android.widget.TextView;
 
 public class CAActivity extends Activity
 {
@@ -22,8 +29,9 @@ public class CAActivity extends Activity
     private LinearLayout LL;
     private Context context;
     private Intent contentSwitch;
-    BookDatabase bookDB;
-    int errors, iPerror;
+    private BookDatabase bookDB;
+    private int errors, iPerror;
+    private TextView debugText;
 
     @Override
     protected void onCreate(Bundle savedState)
@@ -34,6 +42,7 @@ public class CAActivity extends Activity
         passText = (EditText) findViewById(R.id.ca_passText);
         subButton = (Button) findViewById(R.id.ca_caButton);
         LL = (LinearLayout) findViewById(R.id.ca_Layout);
+        debugText = (TextView) findViewById(R.id.ca_textView);
         context = getApplicationContext();
         contentSwitch = new Intent(getApplicationContext(), MainActivity.class);
         errors = 0;
@@ -57,6 +66,7 @@ public class CAActivity extends Activity
                 if (searchResults.size() > 0) //
                 {
                     Toast.makeText(context, "Error: User's account already exist", Toast.LENGTH_SHORT).show();
+                    //debugText.setText("Error: User's account already exist");
                     if (errors == 1)
                     {
                         startActivity(contentSwitch);
@@ -75,6 +85,7 @@ public class CAActivity extends Activity
                 {
                     Toast.makeText(context, "Error: No text detected in the username or password field",
                             Toast.LENGTH_SHORT).show();
+                    //debugText.setText("Error: No Text detected in the username or password field");
                     return;
                 }
 
@@ -87,6 +98,7 @@ public class CAActivity extends Activity
                     {
                         Toast.makeText(context, "Error: Special character detected in username",
                                 Toast.LENGTH_SHORT).show();
+                        //debugText.setText("Error: Special character detected in username");
                         return;
                     }
                 }
@@ -115,6 +127,7 @@ public class CAActivity extends Activity
                     {
                         Toast.makeText(context, "Error: Special character detected in password",
                                 Toast.LENGTH_SHORT).show();
+                        //debugText.setText("Error: Special character detected in password");
                         return;
                     }
                 }
@@ -125,7 +138,8 @@ public class CAActivity extends Activity
                     bookDB.getBookDao().insert(temp);
                     String message = username + "'s account created at " + date;
                     Toast.makeText(context, message, Toast.LENGTH_LONG).show();
-                    Log logTemp = new Log("Account Creation", message);
+                    Log logTemp = new Log("New Account", username, date);
+                    // debugText.setText(message);
                     bookDB.getBookDao().insert(logTemp);
                 }
 
@@ -133,6 +147,7 @@ public class CAActivity extends Activity
                 {
                     Toast.makeText(context, "Error: This password doesn't meet the requirements",
                             Toast.LENGTH_SHORT).show();
+                    // debugText.setText("Error: This password doesn't meet the requirements");
 
                     if (iPerror == 1)
                     {

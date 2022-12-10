@@ -1,6 +1,10 @@
 /**
  * Title: Book.java
- *
+ * Abstract: Book has a title, author, a price, name of the account that reccently rented it, the
+ * rental date and the return date
+ * Author: Jalen Banks
+ * ID: 1012
+ * Date of Completion: 12/01/22
  */
 package edu.csumb.bank1435.pr3;
 

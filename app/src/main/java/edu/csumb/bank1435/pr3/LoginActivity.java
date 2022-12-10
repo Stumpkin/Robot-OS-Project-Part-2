@@ -1,8 +1,14 @@
+/**
+ * Title: LoginActivity.java
+ * Abstract: Logs in the user with the correct information based on the user's input to match up with
+ * the database information. There is a special login for the Admin
+ * Author: Jalen Banks
+ * ID: 1012
+ *
+ */
 package edu.csumb.bank1435.pr3;
 
 import androidx.appcompat.app.AppCompatActivity;
-
-import android.content.SharedPreferences;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -108,11 +114,6 @@ public class LoginActivity extends AppCompatActivity
             bookDB.getBookDao().updateAllAccounts(allAccounts);
             return flag;
         }
-
-//        if (getIntent().getStringExtra("Button").equals("Cancel Hold"))
-//        {
-//            Toast.makeText(this,"Error: invalid login", Toast.LENGTH_SHORT).show();
-//        }
         return flag;
     }
 

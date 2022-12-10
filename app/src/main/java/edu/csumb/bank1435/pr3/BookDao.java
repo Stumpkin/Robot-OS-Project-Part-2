@@ -1,3 +1,10 @@
+/**
+ * Title: BookDao.java
+ * Abstract: contains all the SQL statements for auto generated Java functions for BookDatabase.java
+ * Author: Jalen Banks
+ * ID:1012
+ * Date of Completion: 12/08/22
+ */
 package edu.csumb.bank1435.pr3;
 
 import androidx.room.Dao;

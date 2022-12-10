@@ -4,13 +4,28 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/ms_text"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="520dp"
-        android:text="SOME TEXT"
-        android:textAlignment="center"
-        android:textSize="20sp" />
+        android:layout_height="419dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/ms_text"
+                android:layout_width="match_parent"
+                android:layout_height="520dp"
+                android:text="SOME TEXT"
+                android:textAlignment="textStart"
+                android:textSize="20sp" />
+        </LinearLayout>
+    </ScrollView>
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="19dp" />
 
     <TextView
         android:id="@+id/textView2"
@@ -31,4 +46,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="No" />
+
+    <Button
+        android:id="@+id/ms_OUTBUTTON"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Force Stop" />
 </LinearLayout>

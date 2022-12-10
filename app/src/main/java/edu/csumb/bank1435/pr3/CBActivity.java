@@ -1,3 +1,10 @@
+/**
+ * Title: CBActivity.java
+ * Abstract: Create a new book and adds it into the database while checking for existing books
+ * Author: Jalen Banks
+ * ID: 1012
+ * Date of Completion: 12/07/22
+ */
 package edu.csumb.bank1435.pr3;
 
 import android.app.Activity;
@@ -41,8 +48,8 @@ public class CBActivity extends Activity
             {
                 InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow (LL.getWindowToken(), 0);
-                resetText();
                 createNewBook();
+                resetText();
             }
         });
 
@@ -64,7 +71,7 @@ public class CBActivity extends Activity
         List<Book> searched = bookDB.getBookDao().searchbyTitle(titleText);
         String[] titleSpaces = titleText.split(" ");
         String[] authorSpaces = authorText.split(" ");
-        String currentDate = DateFormat.getDateInstance().format(new Date());
+        String currentDate = DateFormat.getDateTimeInstance().format(new Date());
 
         if (searched.size() > 0) {
             Toast.makeText(getApplicationContext(), "Book already exist", Toast.LENGTH_LONG).show();
@@ -85,7 +92,7 @@ public class CBActivity extends Activity
             Book temp = new Book(titleText, authorText, translatedPrice);
             bookDB.getBookDao().insert(temp);
             String message = titleText + " was added in " + currentDate;
-            Log currentLog = new Log("Book Added", message);
+            Log currentLog = new Log("New Book", titleText, currentDate);
             bookDB.getBookDao().insert(currentLog);
             Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
         } catch (NumberFormatException e) {

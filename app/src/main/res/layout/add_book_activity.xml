@@ -21,6 +21,7 @@
         android:ems="10"
         android:hint="Author"
         android:inputType="textPersonName"
+        android:minHeight="48dp"
         android:textAlignment="center" />
 
     <EditText
@@ -30,6 +31,7 @@
         android:ems="10"
         android:hint="$ price / Day"
         android:inputType="textPersonName"
+        android:minHeight="48dp"
         android:textAlignment="center" />
 
     <Button

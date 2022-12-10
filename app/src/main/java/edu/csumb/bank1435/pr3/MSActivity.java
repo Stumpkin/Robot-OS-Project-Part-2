@@ -1,3 +1,10 @@
+/**
+ * Title: MSActivity.java
+ * Abstract: Displays all of the recorded transactions in the system. The user can choose to create a book
+ * Author: Jalen Banks
+ * ID: 1012
+ * Date of Completion: 12/09/22
+ */
 package edu.csumb.bank1435.pr3;
 import android.app.Activity;
 import android.os.Bundle;
@@ -11,7 +18,7 @@ import java.util.List;
 public class MSActivity extends Activity
 {
     private TextView someText;
-    private Button cBookButton, backbutton;
+    private Button cBookButton, backbutton, quitButton;
     private BookDatabase bookDB;
     private Intent contextSwitcher;
     @Override
@@ -22,6 +29,7 @@ public class MSActivity extends Activity
         someText = (TextView) findViewById(R.id.ms_text);
         cBookButton = (Button) findViewById(R.id.ms_bookButton);
         backbutton = (Button) findViewById(R.id.ms_backButton);
+        quitButton = (Button) findViewById(R.id.ms_OUTBUTTON);
         bookDB = BookDatabase.getDatabase(this);
 
         cBookButton.setOnClickListener(new OnClickListener() {
@@ -42,6 +50,15 @@ public class MSActivity extends Activity
                 contextSwitcher = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(contextSwitcher);
                 return;
+            }
+        });
+
+        quitButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view)
+            {
+                finishAffinity();
+                System.exit(0);
             }
         });
         loadLogs();

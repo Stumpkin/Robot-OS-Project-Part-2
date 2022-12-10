@@ -1,10 +1,21 @@
+/**
+ * Title: PHActivity.java
+ * Abstract: User can place a hold and select how many days to rent a book using a calendar then they must sign in
+ * Rental dates must some time today or past today's date and return date must be within 7 days of the
+ * rental date
+ * Author: Jalen Banks
+ * ID: 1012
+ * Date of Completion: 12/07/22
+ */
 package edu.csumb.bank1435.pr3;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.os.Build;
 import android.view.View;
 import android.widget.Button;
 import android.view.View.OnClickListener;
@@ -21,6 +32,7 @@ import android.widget.CalendarView;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.LinearLayout;
 
+@RequiresApi(api = Build.VERSION_CODES.O)
 public class PHActivity extends AppCompatActivity
 {
     private Button rentalDateButton, returnDateButton, subButton, loginButton;
@@ -29,12 +41,12 @@ public class PHActivity extends AppCompatActivity
     private AlertDialog dialouge;
     private CalendarView calendar, calendar2;
     private String rentalDateString, returnDateString;
-    private EditText inputText, inputUserText, inputPassText, inputHourlyText;
+    private EditText inputText, inputUserText, inputPassText;
     private LinearLayout LL;
     private BookDatabase bookDB;
     private Intent contextSwitcher;
     private boolean failedOnce = false;
-    //private LoginActivity
+
     @Override
     protected void onCreate(Bundle savedState)
     {
@@ -140,10 +152,11 @@ public class PHActivity extends AppCompatActivity
             public void onClick(View view) {
                 InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow (LL.getWindowToken(), 0);
-                // do date checks
                 if (!validDates())
                 {
-                    debugTextView.setText("Invalid hold and/or return date");
+                    //debugTextView.setText("Invalid hold and/or return date");
+                    Toast.makeText(getApplicationContext(), "Invalid hold and/or return date",
+                            Toast.LENGTH_LONG).show();
                     dialouge.dismiss();
                     return;
                 }
@@ -178,7 +191,7 @@ public class PHActivity extends AppCompatActivity
                 if (!flag)
                 {
                     Toast.makeText(getApplicationContext(), "Cannot find account", Toast.LENGTH_LONG).show();
-                    debugTextView.setText("Cannot find account");
+                    //debugTextView.setText("Cannot find account");
                     if (!failedOnce)
                     {
                         failedOnce = true;
@@ -213,13 +226,12 @@ public class PHActivity extends AppCompatActivity
         }
         booksText.setText(displayString);
     }
-
-    void search(Account someAccount) // get all of the books and do search from there
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    void search(Account someAccount)
     {
         String target = inputText.getText().toString();
         List<Book> searchResults = bookDB.getBookDao().searchbyTitle(target);
         List<Book> allBooks = bookDB.getBookDao().getAll();
-
 
         if (searchResults.size() > 0)
         {
@@ -245,13 +257,14 @@ public class PHActivity extends AppCompatActivity
                 bookDB.getBookDao().update(allBooks);
                 String date = DateFormat.getDateTimeInstance().format(new Date());
                 String message = searchResults.get(0).getTitle() +
-                        " has been successfully checked out at " + date;
-                Toast.makeText(this, searchResults.get(0).getTitle() +
-                        " has been successfully checked out at " + date, Toast.LENGTH_LONG).show();
-                debugTextView.setText(searchResults.get(0).getTitle() + " has been successfully checked" +
-                        " out at " + date + " by " + someAccount.getName() + " for " + temp.getPriceFormatted());
+                        " has been successfully checked out at " + date + " from " + rentalDateString + " to " + returnDateString +
+                        " for a total of: " + someAccount.getTotalFormated();
+                Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+                //debugTextView.setText(message);
 
-                Log tempLog = new Log("Place Hold", debugTextView.getText().toString());
+                Log tempLog = new Log("New Hold", searchResults.get(0).getTitle() + " has been " +
+                        "checked out at " + rentalDateString + " to " + returnDateString + " by " +
+                        someAccount.getName(), date);
                 bookDB.getBookDao().insert(tempLog);
 
             }
@@ -259,7 +272,7 @@ public class PHActivity extends AppCompatActivity
             else
             {
                 Toast.makeText(this, "This book is not available", Toast.LENGTH_LONG).show();
-                debugTextView.setText("This book is not available");
+                //debugTextView.setText("This book is not available");
             }
         }
 
@@ -270,17 +283,23 @@ public class PHActivity extends AppCompatActivity
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     boolean validDates()
     {
+        if (rentalDateString == null || returnDateString == null)
+        {
+            return false;
+        }
+
         String rental = reforamtDateString(rentalDateString);
         String returnal = reforamtDateString(returnDateString);
         LocalDate date1 = LocalDate.parse(rental);
         LocalDate date2 = LocalDate.parse(returnal);
         LocalDate week = date1.plusWeeks(1);
         LocalDate today = LocalDate.now();
-        if (date2.compareTo(today) >= 0) // might have to change this so that they can rent a book and return it in the same day
+        if (date2.compareTo(today) >= 0)
         {
-            if (date2.compareTo(date1) >= 0 && date2.compareTo(week) < 0)
+            if ((date2.compareTo(date1) >= 0 && date2.compareTo(week) < 0) & date1.compareTo(today) >= 0)
             {
                 return true;
             }
@@ -288,6 +307,7 @@ public class PHActivity extends AppCompatActivity
         return false;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     int rentedDays()
     {
         String rental = reforamtDateString(rentalDateString);

@@ -1,10 +1,17 @@
+/**
+ * Title: MainActivity.java
+ * Abstract: The main menu of the project, it will load the database upon first run then the user can
+ * choose to create an account, place a hold, cancel a hold, or manage system
+ * Author: Jalen Banks
+ * ID: 1012
+ * Date of Completion: 12/09/22
+ */
 package edu.csumb.bank1435.pr3;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.widget.Button;
 import android.view.View.OnClickListener;
 import android.content.Intent;
-import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import java.util.List;

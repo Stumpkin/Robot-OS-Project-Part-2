@@ -1,3 +1,10 @@
+/**
+ * Title: BookDatabase.java
+ * Abstract: Using the singleton design pattern, loads the data tables of Books, Accounts, and Logs
+ * Author: Jalen Banks
+ * ID: 1012
+ * Date of Completion: 12/09/22
+ */
 package edu.csumb.bank1435.pr3;
 
 import android.content.Context;

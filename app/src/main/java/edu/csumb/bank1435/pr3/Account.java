@@ -2,6 +2,7 @@
  * Title: Account.java
  * Abstract: Account holds: a name, password, current price, is active state and has holds state
  * ID: 1012
+ * Author: Jalen Banks
  * Date of Completion: 12/07/22
  */
 package edu.csumb.bank1435.pr3;
